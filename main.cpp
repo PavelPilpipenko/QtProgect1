@@ -1,3 +1,13 @@
+/*
+#include "QLabel"
+Стандартная библиотека для тектовых рядков, изменения размеров окна и тд.
+#include <QMessegeBox>
+Библиотека вывода диалоговых окон.
+#include <QPixMap>
+Библиотека для работы с картинаками(Добавление картинок в UI).
+*/
+
+
 #include "mainwindow.h"
 
 #include <QApplication>
