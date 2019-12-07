@@ -1,23 +1,40 @@
 #include "timeclass.h"
 
-Timer::Timer() {
-    timer = new QTimer;
-    timer->setInterval(1000);
+TimerAndAlarm::TimerAndAlarm() {
+    _clock = new QTimer;
+    _clock->setInterval(1000);
+    _type = not_setted;
 }
 
-int Timer::timeMillSec()
+type TimerAndAlarm::type() {
+    return _type;
+}
+
+int TimerAndAlarm::timeMillSec()
 {
     return _timeMillSec;
 }
 
-QTimer *Timer::ttimer()
+QTimer *TimerAndAlarm::clock()
 {
-    return timer;
+    return _clock;
 }
 
-void Timer::Set_timeMillSec(const int &time)
+void TimerAndAlarm::Set_type(const int &numOftype) {
+    if(numOftype == 0) {
+        _type = not_setted;
+    } else if(numOftype == 1) {
+        _type = isTimer;
+    } else if(numOftype == 2) {
+        _type = isAlarm;
+    } else {
+        return;
+    }
+}
+
+void TimerAndAlarm::Set_timeMillSec(const int &time)
 {
-    Timer::_timeMillSec = time;
+    TimerAndAlarm::_timeMillSec = time;
 }
 
 timeclass::timeclass()

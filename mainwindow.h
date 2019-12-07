@@ -23,11 +23,14 @@ public:
 private slots:
 
     void update_timer(const unsigned long long int &index);
-    void on_addTimerBurron_clicked();
+    void update_alarm(const unsigned long long int &index);
+    void on_addTimerButton_clicked();
 
     void on_start_clicked();
 
     void on_Delete_clicked();
+
+    void on_addAlarmButton_clicked();
 
 private:
     Ui::MainWindow *ui;

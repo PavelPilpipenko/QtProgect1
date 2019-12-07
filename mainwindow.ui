@@ -53,7 +53,7 @@
      <string notr="true"/>
     </property>
    </widget>
-   <widget class="QPushButton" name="addTimerBurron">
+   <widget class="QPushButton" name="addTimerButton">
     <property name="geometry">
      <rect>
       <x>220</x>

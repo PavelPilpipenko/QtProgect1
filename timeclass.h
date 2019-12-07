@@ -4,24 +4,29 @@
 #include <vector>
 #include <QTimer>
 
-struct Timer {
+enum type {not_setted, isTimer, isAlarm};
+struct TimerAndAlarm {
 private:
-    QTimer *timer;
+    QTimer *_clock;
     int _timeMillSec;
+    type _type;
 public:
     int timeMillSec();
-    QTimer *ttimer();
-    void Set_timeMillSec(const int &time);
+    type type();
+    QTimer *clock();
 
-    Timer();
+    void Set_timeMillSec(const int &time);
+    void Set_type(const int &numOftype);
+
+    TimerAndAlarm();
 };
 
 
 
-class timeclass : public Timer
+class timeclass : public TimerAndAlarm
 {
 public:
-    std::vector<Timer> timersList;
+    std::vector<TimerAndAlarm> timersAndAlarmsList;
     timeclass();
 };
 
