@@ -14,13 +14,22 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::update_timer(QListWidgetItem *selTimer)
+void MainWindow::update_timer()
 {
+    QListWidgetItem *selectedTimer = new QListWidgetItem;
+
+    unsigned long long int index = ui->listWidget->currentRow();
+    selectedTimer = ui->listWidget->currentItem();
+    int time = timersListTime[index];
     int i = 0;
-    while(i != timeMillSec()) {
+    while(i != time) {
         i += 1000;
         timer->singleShot(i, this, [=](){
-            selTimer->setText("Timer: " + QTime(0,0,0).addMSecs(timeMillSec() - i).toString());
+            selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(time - i).toString());
+            if(i == time) {
+                QMessageBox::warning(this, "VSE", "YOUR TIME ENDED", QMessageBox::Ok);
+                selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(time).toString());
+            }
         });
     }
 }
@@ -41,12 +50,6 @@ void MainWindow::on_addTimerBurron_clicked()
 
 void MainWindow::on_start_clicked()
 {
-    QListWidgetItem *selectedTimer = new QListWidgetItem;
-    selectedTimer = ui->listWidget->currentItem();
     timer->start();
-    timer->singleShot(timeMillSec(), this, [=](){
-        QMessageBox::warning(this, "VSE", "YOUR TIME ENDED", QMessageBox::Ok);
-        selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(timeMillSec()).toString());
-    });
-    update_timer(selectedTimer);
+    update_timer();
 }

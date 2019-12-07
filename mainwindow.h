@@ -22,7 +22,7 @@ public:
 
 private slots:
 
-    void update_timer(QListWidgetItem *selTimer);
+    void update_timer();
     void on_addTimerBurron_clicked();
 
     void on_start_clicked();
