@@ -5,8 +5,8 @@
 #include <QListWidget>
 #include <QTime>
 #include <QTimer>
-#include "timeclass.h"
 #include <QMessageBox>
+#include "timeclass.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,10 +22,12 @@ public:
 
 private slots:
 
-    void update_timer();
+    void update_timer(const unsigned long long int &index);
     void on_addTimerBurron_clicked();
 
     void on_start_clicked();
+
+    void on_Delete_clicked();
 
 private:
     Ui::MainWindow *ui;

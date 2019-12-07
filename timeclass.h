@@ -4,15 +4,24 @@
 #include <vector>
 #include <QTimer>
 
-class timeclass
-{
+struct Timer {
 private:
+    QTimer *timer;
     int _timeMillSec;
 public:
-    QTimer *timer;
-    std::vector<int> timersListTime;
     int timeMillSec();
+    QTimer *ttimer();
     void Set_timeMillSec(const int &time);
+
+    Timer();
+};
+
+
+
+class timeclass : public Timer
+{
+public:
+    std::vector<Timer> timersList;
     timeclass();
 };
 

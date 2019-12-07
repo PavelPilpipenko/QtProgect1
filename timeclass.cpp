@@ -1,17 +1,25 @@
 #include "timeclass.h"
 
-int timeclass::timeMillSec()
+Timer::Timer() {
+    timer = new QTimer;
+    timer->setInterval(1000);
+}
+
+int Timer::timeMillSec()
 {
     return _timeMillSec;
 }
 
-void timeclass::Set_timeMillSec(const int &time)
+QTimer *Timer::ttimer()
 {
-    _timeMillSec = time;
+    return timer;
+}
+
+void Timer::Set_timeMillSec(const int &time)
+{
+    Timer::_timeMillSec = time;
 }
 
 timeclass::timeclass()
 {
-    timer = new QTimer;
-    timer->setInterval(1000);
 }
