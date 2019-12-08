@@ -9,9 +9,17 @@ MainWindow::MainWindow(QWidget *parent)
     ui->timeEdit->setDisplayFormat("hh:mm:ss");
     playerTimer = new QMediaPlayer;
     playerAlarm = new QMediaPlayer;
+    playerSecretBox = new QMediaPlayer;
     playerTimer->setMedia(QUrl("qrc:/sounds/recources/alarm-clock-beep.mp3"));
     playerAlarm->setMedia(QUrl("qrc:/sounds/recources/alarm-sound.mp3"));
+    playerSecretBox->setMedia(QUrl("qrc:/sounds/recources/Secret-Box-Sound.mp3"));
+    playerSecretBox->setVolume(50);
     playerAlarm->setVolume(50);
+    QPixmap secretIcon(":/sounds/recources/secret-box-png.png");
+    const int w = ui->secretBoxIcon->width();
+    const int h = ui->secretBoxIcon->height();
+    ui->secretBoxIcon->setPixmap(secretIcon.scaled(w, h, Qt::KeepAspectRatio));
+
 }
 
 MainWindow::~MainWindow()
@@ -157,4 +165,11 @@ void MainWindow::on_RemoveFromGroupOfTimers_clicked()
     selectedTimer = ui->listWidget->currentItem();
     timersAndAlarmsList[index].Set_node("");
     selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(timersAndAlarmsList[index].timeMillSec()).toString() + timersAndAlarmsList[index].node());
+}
+
+void MainWindow::on_SB_clicked()
+{
+    playerSecretBox->play();
+    QMessageBox::warning(this,"WARNING!", "SECRET BOX!!!", QMessageBox::Ok);
+    playerSecretBox->stop();
 }

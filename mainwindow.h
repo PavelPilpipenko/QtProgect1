@@ -9,6 +9,7 @@
 #include <QMediaPlayer>
 #include <QUrl>
 #include <QMessageBox>
+#include <QPixmap>
 #include "timeclass.h"
 
 QT_BEGIN_NAMESPACE
@@ -25,6 +26,7 @@ public:
 
     QMediaPlayer *playerTimer;
     QMediaPlayer *playerAlarm;
+    QMediaPlayer *playerSecretBox;
 private slots:
 
     void update_timer(const unsigned long long int &index);
@@ -44,6 +46,8 @@ private slots:
     void on_StartGroup_clicked();
 
     void on_RemoveFromGroupOfTimers_clicked();
+
+    void on_SB_clicked();
 
 private:
     Ui::MainWindow *ui;

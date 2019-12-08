@@ -2,5 +2,7 @@
     <qresource prefix="/sounds">
         <file>recources/alarm-clock-beep.mp3</file>
         <file>recources/alarm-sound.mp3</file>
+        <file>recources/secret-box-png.png</file>
+        <file>recources/Secret-Box-Sound.mp3</file>
     </qresource>
 </RCC>
