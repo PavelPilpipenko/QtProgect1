@@ -39,6 +39,10 @@ private slots:
 
     void on_DisturbBox_clicked(bool checked);
 
+    void on_AddToGroupOfTimers_clicked();
+
+    void on_StartGroup_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

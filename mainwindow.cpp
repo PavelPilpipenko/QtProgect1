@@ -22,20 +22,20 @@ MainWindow::~MainWindow()
 void MainWindow::update_timer(const unsigned long long int &index)
 {
     QListWidgetItem *selectedTimer = new QListWidgetItem;
-    selectedTimer = ui->listWidget->currentItem();
+    selectedTimer = ui->listWidget->item(index);
     int time = timersAndAlarmsList[index].timeMillSec();
     int i = 0;
     while(i != time) {
         i += 1000;
         timersAndAlarmsList[index].clock()->singleShot(i, this, [=](){
-                selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(time - i).toString());
+                selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(time - i).toString() + timersAndAlarmsList[index].node());
                 if(i == time) {
                     if(!ui->DisturbBox->isTristate()) {
                         playerTimer->play();
                         QMessageBox::warning(this, "KOPEC KONEC", "YOUR TIME ENDED", QMessageBox::Ok);
                         playerTimer->stop(); }
                     timersAndAlarmsList[index].clock()->stop();
-                    selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(time).toString());
+                    selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(time).toString() + timersAndAlarmsList[index].node());
                 }
         });
     }
@@ -81,6 +81,16 @@ void MainWindow::on_addAlarmButton_clicked()
     ui->listWidget->addItem(addAlarm);
 }
 
+void MainWindow::on_AddToGroupOfTimers_clicked()
+{
+    const unsigned long long int index = ui->listWidget->currentRow();
+    if(timersAndAlarmsList[index].type() == isAlarm) { return; }
+    timersAndAlarmsList[index].Set_node(" Group");
+    QListWidgetItem *selectedTimer = new QListWidgetItem;
+    selectedTimer = ui->listWidget->currentItem();
+    selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(timersAndAlarmsList[index].timeMillSec()).toString() + timersAndAlarmsList[index].node());
+}
+
 void MainWindow::on_start_clicked()
 {
     const unsigned long long int index = ui->listWidget->currentRow();
@@ -102,6 +112,19 @@ void MainWindow::on_start_clicked()
     }
 }
 
+void MainWindow::on_StartGroup_clicked()
+{
+    if(timersAndAlarmsList.size() == 0) { QMessageBox::warning(this, "UPS", "Pls, add some timers to list.", QMessageBox::Ok); return; }
+        else {
+            for(unsigned long long int index = 0; index < timersAndAlarmsList.size(); ++index) {
+                if(timersAndAlarmsList[index].node() == " Group") {
+                    if(timersAndAlarmsList[index].clock()->isActive()) { continue; }
+                    timersAndAlarmsList[index].clock()->start();
+                    update_timer(index);
+                }
+            }
+        }
+}
 
 
 
@@ -123,3 +146,6 @@ void MainWindow::on_DisturbBox_clicked(bool checked)
                   ui->DisturbBox->setTristate(false);
      }
 }
+
+
+
