@@ -169,7 +169,9 @@ void MainWindow::on_RemoveFromGroupOfTimers_clicked()
 
 void MainWindow::on_SB_clicked()
 {
+    ui->DisturbBox->setTristate(true);
     playerSecretBox->play();
     QMessageBox::warning(this,"WARNING!", "SECRET BOX!!!", QMessageBox::Ok);
     playerSecretBox->stop();
+    ui->DisturbBox->setTristate(false);
 }
