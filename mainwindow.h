@@ -5,6 +5,7 @@
 #include <QListWidget>
 #include <QTime>
 #include <QTimer>
+#include <QCheckBox>
 #include <QMessageBox>
 #include "timeclass.h"
 
@@ -31,6 +32,8 @@ private slots:
     void on_Delete_clicked();
 
     void on_addAlarmButton_clicked();
+
+    void on_DisturbBox_clicked(bool checked);
 
 private:
     Ui::MainWindow *ui;

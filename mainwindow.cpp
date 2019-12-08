@@ -25,19 +25,19 @@ void MainWindow::update_timer(const unsigned long long int &index)
         timersAndAlarmsList[index].clock()->singleShot(i, this, [=](){
                 selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(time - i).toString());
                 if(i == time) {
-                   QMessageBox::warning(this, "KOPEC KONEC", "YOUR TIME ENDED", QMessageBox::Ok);
-                   timersAndAlarmsList[index].clock()->stop();
-                   selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(time).toString());
+                    if(!ui->DisturbBox->isTristate()) { QMessageBox::warning(this, "KOPEC KONEC", "YOUR TIME ENDED", QMessageBox::Ok); }
+                    timersAndAlarmsList[index].clock()->stop();
+                    selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(time).toString());
                 }
-               });
+        });
     }
 }
 
 void MainWindow::update_alarm(const unsigned long long int &index) {
     int time = timersAndAlarmsList[index].timeMillSec();
     timersAndAlarmsList[index].clock()->singleShot(time, this, [=](){
-       QMessageBox::warning(this, "HEY", "WAKE UP!!!", QMessageBox::Ok);
        timersAndAlarmsList[index].clock()->stop();
+       if(!ui->DisturbBox->isTristate()) { QMessageBox::warning(this, "HEY", "WAKE UP!!!", QMessageBox::Ok); }
     });
 }
 
@@ -59,13 +59,14 @@ void MainWindow::on_addTimerButton_clicked()
 
 void MainWindow::on_addAlarmButton_clicked()
 {
+    ui->statusbar->clearMessage();
     TimerAndAlarm newAlarm;
     newAlarm.Set_type(2);
     const int alarmtime = ui->timeEdit->time().msecsSinceStartOfDay();
     newAlarm.Set_timeMillSec(alarmtime);
     timersAndAlarmsList.push_back(newAlarm);
     QListWidgetItem *addAlarm = new QListWidgetItem;
-    addAlarm->setText("Alarm" + QTime(0,0,0).addMSecs(timersAndAlarmsList.back().timeMillSec()).toString());
+    addAlarm->setText("Alarm: " + QTime(0,0,0).addMSecs(timersAndAlarmsList.back().timeMillSec()).toString());
     ui->listWidget->addItem(addAlarm);
 }
 
@@ -98,11 +99,16 @@ void MainWindow::on_Delete_clicked()
 {
     const int index = ui->listWidget->currentRow();
     if(timersAndAlarmsList[index].clock()->isActive()) {
-        QMessageBox::warning(this, "UPS", "You cant delete timer while it works", QMessageBox::Ok);
+        QMessageBox::warning(this, "UPS", "You cant delete object while it works", QMessageBox::Ok);
     } else {
         timersAndAlarmsList.erase(timersAndAlarmsList.begin() + index);
         ui->listWidget->takeItem(index);
     }
 }
 
-
+void MainWindow::on_DisturbBox_clicked(bool checked)
+{
+    if(checked) { ui->DisturbBox->setTristate(true); } else {
+                  ui->DisturbBox->setTristate(false);
+     }
+}
