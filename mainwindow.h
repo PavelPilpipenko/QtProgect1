@@ -6,6 +6,8 @@
 #include <QTime>
 #include <QTimer>
 #include <QCheckBox>
+#include <QMediaPlayer>
+#include <QUrl>
 #include <QMessageBox>
 #include "timeclass.h"
 
@@ -21,6 +23,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    QMediaPlayer *playerTimer;
+    QMediaPlayer *playerAlarm;
 private slots:
 
     void update_timer(const unsigned long long int &index);

@@ -7,6 +7,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->timeEdit->setDisplayFormat("hh:mm:ss");
+    playerTimer = new QMediaPlayer;
+    playerAlarm = new QMediaPlayer;
+    playerTimer->setMedia(QUrl("qrc:/sounds/recources/alarm-clock-beep.mp3"));
+    playerAlarm->setMedia(QUrl("qrc:/sounds/recources/alarm-sound.mp3"));
+    playerAlarm->setVolume(50);
 }
 
 MainWindow::~MainWindow()
@@ -25,7 +30,10 @@ void MainWindow::update_timer(const unsigned long long int &index)
         timersAndAlarmsList[index].clock()->singleShot(i, this, [=](){
                 selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(time - i).toString());
                 if(i == time) {
-                    if(!ui->DisturbBox->isTristate()) { QMessageBox::warning(this, "KOPEC KONEC", "YOUR TIME ENDED", QMessageBox::Ok); }
+                    if(!ui->DisturbBox->isTristate()) {
+                        playerTimer->play();
+                        QMessageBox::warning(this, "KOPEC KONEC", "YOUR TIME ENDED", QMessageBox::Ok);
+                        playerTimer->stop(); }
                     timersAndAlarmsList[index].clock()->stop();
                     selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(time).toString());
                 }
@@ -37,7 +45,10 @@ void MainWindow::update_alarm(const unsigned long long int &index) {
     int time = timersAndAlarmsList[index].timeMillSec();
     timersAndAlarmsList[index].clock()->singleShot(time, this, [=](){
        timersAndAlarmsList[index].clock()->stop();
-       if(!ui->DisturbBox->isTristate()) { QMessageBox::warning(this, "HEY", "WAKE UP!!!", QMessageBox::Ok); }
+       if(!ui->DisturbBox->isTristate()) {
+           playerAlarm->play();
+           QMessageBox::warning(this, "HEY", "WAKE UP!!!", QMessageBox::Ok);
+           playerAlarm->stop(); }
     });
 }
 
