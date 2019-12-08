@@ -72,6 +72,7 @@ void MainWindow::on_addAlarmButton_clicked()
 void MainWindow::on_start_clicked()
 {
     const unsigned long long int index = ui->listWidget->currentRow();
+    if(timersAndAlarmsList[index].clock()->isActive()) { return; }
     if(timersAndAlarmsList[index].type() == isTimer) {
         timersAndAlarmsList[index].clock()->start();
         update_timer(index);
