@@ -149,3 +149,12 @@ void MainWindow::on_DisturbBox_clicked(bool checked)
 
 
 
+
+void MainWindow::on_RemoveFromGroupOfTimers_clicked()
+{
+    const unsigned long long int index = ui->listWidget->currentRow();
+    QListWidgetItem *selectedTimer = new QListWidgetItem;
+    selectedTimer = ui->listWidget->currentItem();
+    timersAndAlarmsList[index].Set_node("");
+    selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(timersAndAlarmsList[index].timeMillSec()).toString() + timersAndAlarmsList[index].node());
+}

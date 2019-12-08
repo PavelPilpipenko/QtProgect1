@@ -43,6 +43,8 @@ private slots:
 
     void on_StartGroup_clicked();
 
+    void on_RemoveFromGroupOfTimers_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
