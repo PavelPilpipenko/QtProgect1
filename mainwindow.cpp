@@ -241,7 +241,7 @@ void MainWindow::on_actionGroup_3_triggered()
     group = " Group 3";
 }
 
-
+//Secret Box:
 void MainWindow::on_actionSecret_Box_Fun_triggered()
 {
     ui->DisturbBox->setTristate(true);
@@ -250,3 +250,12 @@ void MainWindow::on_actionSecret_Box_Fun_triggered()
     playerSecretBox->stop();
     ui->DisturbBox->setTristate(false);
 }
+
+//Music:
+void MainWindow::on_actionbeep_beep_Standart_triggered() { playerTimer->setMedia(QUrl("qrc:/sounds/recources/alarm-clock-beep.mp3")); }
+void MainWindow::on_actionVery_loud_music_triggered() { playerTimer->setMedia(QUrl("qrc:/sounds/recources/Very-loud-alarm.mp3")); }
+void MainWindow::on_actionHappy_New_Year_shortened_edition_triggered() { playerTimer->setMedia(QUrl("qrc:/sounds/recources/Happy-New-Year-short-edition.mp3")); }
+void MainWindow::on_actionHappy_New_Year_Standart_triggered() { playerAlarm->setMedia(QUrl("qrc:/sounds/recources/Happy-New-Year-alarm.mp3")); }
+void MainWindow::on_actionMellen_Gi_Remix_triggered() { playerAlarm->setMedia(QUrl("qrc:/sounds/recources/Mellen-Gi-Remix-alarm..mp3")); }
+void MainWindow::on_actionGood_sound_triggered() { playerAlarm->setMedia(QUrl("qrc:/sounds/recources/Good-sound-for-alarm.mp3")); }
+void MainWindow::on_actionProsipaysa_Moi_Hazain_Fun_triggered() { playerAlarm->setMedia(QUrl("qrc:/sounds/recources/alarm-sound.mp3")); }

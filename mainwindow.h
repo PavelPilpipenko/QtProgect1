@@ -74,6 +74,15 @@ private slots:
 
     void on_actionSecret_Box_Fun_triggered();
 
+    //Music:
+    void on_actionbeep_beep_Standart_triggered();
+    void on_actionVery_loud_music_triggered();
+    void on_actionHappy_New_Year_shortened_edition_triggered();
+    void on_actionHappy_New_Year_Standart_triggered();
+    void on_actionMellen_Gi_Remix_triggered();
+    void on_actionGood_sound_triggered();
+    void on_actionProsipaysa_Moi_Hazain_Fun_triggered();
+
 private:
     Ui::MainWindow *ui;
 };

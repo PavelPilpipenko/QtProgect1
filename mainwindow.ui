@@ -206,14 +206,39 @@ QListView::item:hover {
    </widget>
    <widget class="QMenu" name="menuElse">
     <property name="title">
-     <string>Else</string>
+     <string>Settings</string>
     </property>
     <addaction name="actionDouble_click_to_Start"/>
     <addaction name="actionClick_Sound"/>
     <addaction name="actionSecret_Box_Fun"/>
    </widget>
+   <widget class="QMenu" name="menuChoose_music">
+    <property name="title">
+     <string>Choose music:)</string>
+    </property>
+    <widget class="QMenu" name="menuFor_Timer">
+     <property name="title">
+      <string>For Timers(ALL)</string>
+     </property>
+     <addaction name="beep_beep_Standart"/>
+     <addaction name="actionVery_loud_music"/>
+     <addaction name="actionHappy_New_Year_shortened_edition"/>
+    </widget>
+    <widget class="QMenu" name="menuFor_Alarm">
+     <property name="title">
+      <string>For Alarms(ALL)</string>
+     </property>
+     <addaction name="actionHappy_New_Year_Standart"/>
+     <addaction name="actionMellen_Gi_Remix"/>
+     <addaction name="actionGood_sound"/>
+     <addaction name="actionProsipaysa_Moi_Hazain_Fun"/>
+    </widget>
+    <addaction name="menuFor_Timer"/>
+    <addaction name="menuFor_Alarm"/>
+   </widget>
    <addaction name="menuTime_format"/>
    <addaction name="menuGroups"/>
+   <addaction name="menuChoose_music"/>
    <addaction name="menuElse"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -266,6 +291,41 @@ QListView::item:hover {
    </property>
    <property name="text">
     <string>Click Sound Off</string>
+   </property>
+  </action>
+  <action name="beep_beep_Standart">
+   <property name="text">
+    <string>beep-beep(Standart)</string>
+   </property>
+  </action>
+  <action name="actionVery_loud_music">
+   <property name="text">
+    <string>Very-loud-music(for-important)</string>
+   </property>
+  </action>
+  <action name="actionHappy_New_Year_shortened_edition">
+   <property name="text">
+    <string>Happy-New-Year(shortened-edition)</string>
+   </property>
+  </action>
+  <action name="actionHappy_New_Year_Standart">
+   <property name="text">
+    <string>Happy-New-Year(Standart)</string>
+   </property>
+  </action>
+  <action name="actionMellen_Gi_Remix">
+   <property name="text">
+    <string>Mellen-Gi-Remix</string>
+   </property>
+  </action>
+  <action name="actionGood_sound">
+   <property name="text">
+    <string>Good-sound</string>
+   </property>
+  </action>
+  <action name="actionProsipaysa_Moi_Hazain_Fun">
+   <property name="text">
+    <string>Prosipaysa-Moi-Hazain(Fun)</string>
    </property>
   </action>
  </widget>
