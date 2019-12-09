@@ -9,12 +9,21 @@ MainWindow::MainWindow(QWidget *parent)
     ui->timeEdit->setDisplayFormat("hh:mm:ss");
     group = " Group 1";
     clickSound = true;
+    doubleclick = false;
     offButtons();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::offButtons() {
+    ui->AddToGroupOfTimers->setEnabled(false);
+    ui->RemoveFromGroupOfTimers->setEnabled(false);
+    ui->start->setEnabled(false);
+    ui->Delete->setEnabled(false);
+    ui->StartGroup->setEnabled(false);
 }
 
 void MainWindow::update_timer(const unsigned long long int &index)
@@ -30,7 +39,7 @@ void MainWindow::update_timer(const unsigned long long int &index)
                 if(i == time) {
                     if(!ui->DisturbBox->isTristate()) {
                         playerTimer->play();
-                        QMessageBox::warning(this, "KOPEC KONEC", "YOUR TIME ENDED", QMessageBox::Ok);
+                        QMessageBox::warning(this, "Timer", "Time ended.", QMessageBox::Ok);
                         playerTimer->stop(); }
                     timersAndAlarmsList[index].clock()->stop();
                     selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(time).toString() + timersAndAlarmsList[index].node());
@@ -45,11 +54,12 @@ void MainWindow::update_alarm(const unsigned long long int &index) {
        timersAndAlarmsList[index].clock()->stop();
        if(!ui->DisturbBox->isTristate()) {
            playerAlarm->play();
-           QMessageBox::warning(this, "HEY", "WAKE UP!!!", QMessageBox::Ok);
+           QMessageBox::warning(this, "Alarm clock", "Wake up.", QMessageBox::Ok);
            playerAlarm->stop(); }
     });
 }
 
+//UI:
 void MainWindow::on_addTimerButton_clicked()
 {
     TimerAndAlarm newTimer;
@@ -66,6 +76,7 @@ void MainWindow::on_addTimerButton_clicked()
     ui->listWidget->addItem(addTimer);
 }
 
+
 void MainWindow::on_addAlarmButton_clicked()
 {
     ui->statusbar->clearMessage();
@@ -79,6 +90,7 @@ void MainWindow::on_addAlarmButton_clicked()
     ui->listWidget->addItem(addAlarm);
 }
 
+
 void MainWindow::on_AddToGroupOfTimers_clicked()
 {
         const unsigned long long int index = ui->listWidget->currentRow();
@@ -88,6 +100,7 @@ void MainWindow::on_AddToGroupOfTimers_clicked()
         selectedTimer = ui->listWidget->currentItem();
         selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(timersAndAlarmsList[index].timeMillSec()).toString() + timersAndAlarmsList[index].node());
 }
+
 
 void MainWindow::on_start_clicked()
 {
@@ -110,17 +123,12 @@ void MainWindow::on_start_clicked()
     }
 }
 
-void MainWindow::offButtons() {
-    ui->AddToGroupOfTimers->setEnabled(false);
-    ui->RemoveFromGroupOfTimers->setEnabled(false);
-    ui->start->setEnabled(false);
-    ui->Delete->setEnabled(false);
-    ui->StartGroup->setEnabled(false);
-}
+
 void MainWindow::on_StartGroup_clicked()
 {
         unsigned long long int index = ui->listWidget->currentRow();
         const QString changedGroup = timersAndAlarmsList[index].node();
+        if(changedGroup == "") { return; }
             for(index = 0; index < timersAndAlarmsList.size(); ++index) {
                 if(timersAndAlarmsList[index].node() == changedGroup) {
                     if(timersAndAlarmsList[index].clock()->isActive()) { continue; }
@@ -129,9 +137,6 @@ void MainWindow::on_StartGroup_clicked()
                 }
             }
 }
-
-
-
 
 void MainWindow::on_Delete_clicked()
 {
@@ -154,9 +159,6 @@ void MainWindow::on_DisturbBox_clicked(bool checked)
      }
 }
 
-
-
-
 void MainWindow::on_RemoveFromGroupOfTimers_clicked()
 {
         const unsigned long long int index = ui->listWidget->currentRow();
@@ -167,14 +169,36 @@ void MainWindow::on_RemoveFromGroupOfTimers_clicked()
         selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(timersAndAlarmsList[index].timeMillSec()).toString() + timersAndAlarmsList[index].node());
 }
 
-void MainWindow::on_SB_clicked()
+void MainWindow::on_listWidget_itemSelectionChanged()
 {
-    ui->DisturbBox->setTristate(true);
-    playerSecretBox->play();
-    QMessageBox::warning(this,"WARNING!", "SECRET BOX!!!", QMessageBox::Ok);
-    playerSecretBox->stop();
-    ui->DisturbBox->setTristate(false);
+    if (clickSound) { playerChange->play(); }
+    ui->AddToGroupOfTimers->setEnabled(true);
+    ui->RemoveFromGroupOfTimers->setEnabled(true);
+    ui->start->setEnabled(true);
+    ui->Delete->setEnabled(true);
+    ui->StartGroup->setEnabled(true);
 }
+
+void MainWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
+{
+    item = new QListWidgetItem;
+    if(doubleclick) {
+        on_start_clicked();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void MainWindow::on_actionhours_minutes_seconds_triggered()
 {
@@ -190,23 +214,39 @@ void MainWindow::on_actionminutes_seconds_triggered()
 }
 
 
-void MainWindow::on_listWidget_itemSelectionChanged()
-{
-    if (clickSound) { playerChange->play(); }
-    ui->AddToGroupOfTimers->setEnabled(true);
-    ui->RemoveFromGroupOfTimers->setEnabled(true);
-    ui->start->setEnabled(true);
-    ui->Delete->setEnabled(true);
-    ui->StartGroup->setEnabled(true);
-}
-
 void MainWindow::on_actionClick_Sound_triggered(bool checked)
 {
-    if(checked == true) { clickSound = false; }
+    if(checked) { clickSound = false; }
     else { clickSound = true; }
 }
 
-void MainWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
-{
 
+void MainWindow::on_actionDouble_click_to_Start_triggered(bool checked)
+{
+    if(checked) { doubleclick = true; }
+    else { doubleclick = false; }
+}
+
+
+void MainWindow::on_actionGroup_1_triggered()
+{
+    group = " Group 1";
+}
+void MainWindow::on_actionGroup_2_triggered()
+{
+    group = " Group 2";
+}
+void MainWindow::on_actionGroup_3_triggered()
+{
+    group = " Group 3";
+}
+
+
+void MainWindow::on_actionSecret_Box_Fun_triggered()
+{
+    ui->DisturbBox->setTristate(true);
+    playerSecretBox->play();
+    QMessageBox::warning(this,"WARNING!", "SECRET BOX!!!", QMessageBox::Ok);
+    playerSecretBox->stop();
+    ui->DisturbBox->setTristate(false);
 }

@@ -78,19 +78,6 @@
           </property>
          </spacer>
         </item>
-        <item>
-         <widget class="QPushButton" name="SB">
-          <property name="maximumSize">
-           <size>
-            <width>37</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>SB</string>
-          </property>
-         </widget>
-        </item>
        </layout>
       </item>
       <item>
@@ -265,7 +252,7 @@ QListView::item:hover {
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Double click to Start</string>
+    <string>Double click to Start a timer.</string>
    </property>
   </action>
   <action name="actionSecret_Box_Fun">

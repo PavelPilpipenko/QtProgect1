@@ -7,7 +7,6 @@
 #include <QTimer>
 #include <QCheckBox>
 #include <QMessageBox>
-#include <QPixmap>
 #include <QMediaPlayer>
 #include <QUrl>
 #include "timeclass.h"
@@ -26,6 +25,7 @@ public:
     ~MainWindow();
 
     bool clickSound;
+    bool doubleclick;
     QString group;
 
 private slots:
@@ -52,18 +52,27 @@ private slots:
 
     void on_RemoveFromGroupOfTimers_clicked();
 
-    void on_SB_clicked();
+    void on_listWidget_itemSelectionChanged();
+
+    void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
+
+
+
+
 
     void on_actionhours_minutes_seconds_triggered();
     void on_actionhours_minutes_triggered();
     void on_actionminutes_seconds_triggered();
 
-    void on_listWidget_itemSelectionChanged();
-
     void on_actionClick_Sound_triggered(bool checked);
 
-    void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
+    void on_actionDouble_click_to_Start_triggered(bool checked);
 
+    void on_actionGroup_1_triggered();
+    void on_actionGroup_2_triggered();
+    void on_actionGroup_3_triggered();
+
+    void on_actionSecret_Box_Fun_triggered();
 
 private:
     Ui::MainWindow *ui;
