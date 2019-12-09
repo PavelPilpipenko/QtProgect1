@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>462</width>
-    <height>403</height>
+    <width>511</width>
+    <height>475</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -79,31 +79,6 @@
          </spacer>
         </item>
         <item>
-         <widget class="QLabel" name="secretBoxIcon">
-          <property name="minimumSize">
-           <size>
-            <width>37</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>37</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap>recources/secret-box-png.png</pixmap>
-          </property>
-          <property name="scaledContents">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QPushButton" name="SB">
           <property name="maximumSize">
            <size>
@@ -155,7 +130,27 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QPushButton" name="Delete">
+        <property name="text">
+         <string>Delete</string>
+        </property>
+       </widget>
+      </item>
      </layout>
+    </item>
+    <item row="0" column="1">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
     </item>
     <item row="0" column="0">
      <layout class="QVBoxLayout" name="verticalLayout">
@@ -193,27 +188,7 @@ QListView::item:hover {
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QPushButton" name="Delete">
-        <property name="text">
-         <string>Delete</string>
-        </property>
-       </widget>
-      </item>
      </layout>
-    </item>
-    <item row="0" column="1">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
     </item>
    </layout>
   </widget>
@@ -222,12 +197,90 @@ QListView::item:hover {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>462</width>
+     <width>511</width>
      <height>26</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuTime_format">
+    <property name="title">
+     <string>Time format</string>
+    </property>
+    <addaction name="actionhours_minutes_seconds"/>
+    <addaction name="actionhours_minutes"/>
+    <addaction name="actionminutes_seconds"/>
+   </widget>
+   <widget class="QMenu" name="menuGroups">
+    <property name="title">
+     <string>Groups</string>
+    </property>
+    <addaction name="actionGroup_1"/>
+    <addaction name="actionGroup_2"/>
+    <addaction name="actionGroup_3"/>
+   </widget>
+   <widget class="QMenu" name="menuElse">
+    <property name="title">
+     <string>Else</string>
+    </property>
+    <addaction name="actionDouble_click_to_Start"/>
+    <addaction name="actionClick_Sound"/>
+    <addaction name="actionSecret_Box_Fun"/>
+   </widget>
+   <addaction name="menuTime_format"/>
+   <addaction name="menuGroups"/>
+   <addaction name="menuElse"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionhours_minutes_seconds">
+   <property name="text">
+    <string>hours:minutes:seconds</string>
+   </property>
+  </action>
+  <action name="actionhours_minutes">
+   <property name="text">
+    <string>hours:minutes</string>
+   </property>
+  </action>
+  <action name="actionminutes_seconds">
+   <property name="text">
+    <string>minutes:seconds</string>
+   </property>
+  </action>
+  <action name="actionGroup_1">
+   <property name="text">
+    <string>Group 1</string>
+   </property>
+  </action>
+  <action name="actionGroup_2">
+   <property name="text">
+    <string>Group 2</string>
+   </property>
+  </action>
+  <action name="actionGroup_3">
+   <property name="text">
+    <string>Group 3</string>
+   </property>
+  </action>
+  <action name="actionDouble_click_to_Start">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Double click to Start</string>
+   </property>
+  </action>
+  <action name="actionSecret_Box_Fun">
+   <property name="text">
+    <string>Secret Box!(Fun)</string>
+   </property>
+  </action>
+  <action name="actionClick_Sound">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Click Sound Off</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

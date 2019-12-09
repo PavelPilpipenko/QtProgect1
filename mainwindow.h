@@ -6,17 +6,18 @@
 #include <QTime>
 #include <QTimer>
 #include <QCheckBox>
-#include <QMediaPlayer>
-#include <QUrl>
 #include <QMessageBox>
 #include <QPixmap>
+#include <QMediaPlayer>
+#include <QUrl>
 #include "timeclass.h"
+#include "playlist.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow, timeclass
+class MainWindow : public QMainWindow, timeclass, playlist
 {
     Q_OBJECT
 
@@ -24,13 +25,17 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    QMediaPlayer *playerTimer;
-    QMediaPlayer *playerAlarm;
-    QMediaPlayer *playerSecretBox;
+    bool clickSound;
+    QString group;
+
 private slots:
 
     void update_timer(const unsigned long long int &index);
     void update_alarm(const unsigned long long int &index);
+    void offButtons();
+
+
+//UI:
     void on_addTimerButton_clicked();
 
     void on_start_clicked();
@@ -48,6 +53,17 @@ private slots:
     void on_RemoveFromGroupOfTimers_clicked();
 
     void on_SB_clicked();
+
+    void on_actionhours_minutes_seconds_triggered();
+    void on_actionhours_minutes_triggered();
+    void on_actionminutes_seconds_triggered();
+
+    void on_listWidget_itemSelectionChanged();
+
+    void on_actionClick_Sound_triggered(bool checked);
+
+    void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
+
 
 private:
     Ui::MainWindow *ui;

@@ -7,19 +7,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->timeEdit->setDisplayFormat("hh:mm:ss");
-    playerTimer = new QMediaPlayer;
-    playerAlarm = new QMediaPlayer;
-    playerSecretBox = new QMediaPlayer;
-    playerTimer->setMedia(QUrl("qrc:/sounds/recources/alarm-clock-beep.mp3"));
-    playerAlarm->setMedia(QUrl("qrc:/sounds/recources/alarm-sound.mp3"));
-    playerSecretBox->setMedia(QUrl("qrc:/sounds/recources/Secret-Box-Sound.mp3"));
-    playerSecretBox->setVolume(50);
-    playerAlarm->setVolume(50);
-    QPixmap secretIcon(":/sounds/recources/secret-box-png.png");
-    const int w = ui->secretBoxIcon->width();
-    const int h = ui->secretBoxIcon->height();
-    ui->secretBoxIcon->setPixmap(secretIcon.scaled(w, h, Qt::KeepAspectRatio));
-
+    group = " Group 1";
+    clickSound = true;
+    offButtons();
 }
 
 MainWindow::~MainWindow()
@@ -91,12 +81,12 @@ void MainWindow::on_addAlarmButton_clicked()
 
 void MainWindow::on_AddToGroupOfTimers_clicked()
 {
-    const unsigned long long int index = ui->listWidget->currentRow();
-    if(timersAndAlarmsList[index].type() == isAlarm) { return; }
-    timersAndAlarmsList[index].Set_node(" Group");
-    QListWidgetItem *selectedTimer = new QListWidgetItem;
-    selectedTimer = ui->listWidget->currentItem();
-    selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(timersAndAlarmsList[index].timeMillSec()).toString() + timersAndAlarmsList[index].node());
+        const unsigned long long int index = ui->listWidget->currentRow();
+        if(timersAndAlarmsList[index].type() == isAlarm) { return; }
+        timersAndAlarmsList[index].Set_node(group);
+        QListWidgetItem *selectedTimer = new QListWidgetItem;
+        selectedTimer = ui->listWidget->currentItem();
+        selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(timersAndAlarmsList[index].timeMillSec()).toString() + timersAndAlarmsList[index].node());
 }
 
 void MainWindow::on_start_clicked()
@@ -120,18 +110,24 @@ void MainWindow::on_start_clicked()
     }
 }
 
+void MainWindow::offButtons() {
+    ui->AddToGroupOfTimers->setEnabled(false);
+    ui->RemoveFromGroupOfTimers->setEnabled(false);
+    ui->start->setEnabled(false);
+    ui->Delete->setEnabled(false);
+    ui->StartGroup->setEnabled(false);
+}
 void MainWindow::on_StartGroup_clicked()
 {
-    if(timersAndAlarmsList.size() == 0) { QMessageBox::warning(this, "UPS", "Pls, add some timers to list.", QMessageBox::Ok); return; }
-        else {
-            for(unsigned long long int index = 0; index < timersAndAlarmsList.size(); ++index) {
-                if(timersAndAlarmsList[index].node() == " Group") {
+        unsigned long long int index = ui->listWidget->currentRow();
+        const QString changedGroup = timersAndAlarmsList[index].node();
+            for(index = 0; index < timersAndAlarmsList.size(); ++index) {
+                if(timersAndAlarmsList[index].node() == changedGroup) {
                     if(timersAndAlarmsList[index].clock()->isActive()) { continue; }
                     timersAndAlarmsList[index].clock()->start();
                     update_timer(index);
                 }
             }
-        }
 }
 
 
@@ -145,6 +141,9 @@ void MainWindow::on_Delete_clicked()
     } else {
         timersAndAlarmsList.erase(timersAndAlarmsList.begin() + index);
         ui->listWidget->takeItem(index);
+        if(timersAndAlarmsList.size() == 0) {
+            offButtons();
+        }
     }
 }
 
@@ -160,11 +159,12 @@ void MainWindow::on_DisturbBox_clicked(bool checked)
 
 void MainWindow::on_RemoveFromGroupOfTimers_clicked()
 {
-    const unsigned long long int index = ui->listWidget->currentRow();
-    QListWidgetItem *selectedTimer = new QListWidgetItem;
-    selectedTimer = ui->listWidget->currentItem();
-    timersAndAlarmsList[index].Set_node("");
-    selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(timersAndAlarmsList[index].timeMillSec()).toString() + timersAndAlarmsList[index].node());
+        const unsigned long long int index = ui->listWidget->currentRow();
+        if(timersAndAlarmsList[index].type() == isAlarm) { return; }
+        QListWidgetItem *selectedTimer = new QListWidgetItem;
+        selectedTimer = ui->listWidget->currentItem();
+        timersAndAlarmsList[index].Set_node("");
+        selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(timersAndAlarmsList[index].timeMillSec()).toString() + timersAndAlarmsList[index].node());
 }
 
 void MainWindow::on_SB_clicked()
@@ -174,4 +174,39 @@ void MainWindow::on_SB_clicked()
     QMessageBox::warning(this,"WARNING!", "SECRET BOX!!!", QMessageBox::Ok);
     playerSecretBox->stop();
     ui->DisturbBox->setTristate(false);
+}
+
+void MainWindow::on_actionhours_minutes_seconds_triggered()
+{
+    ui->timeEdit->setDisplayFormat("hh:mm:ss");
+}
+void MainWindow::on_actionhours_minutes_triggered()
+{
+    ui->timeEdit->setDisplayFormat("hh:mm");
+}
+void MainWindow::on_actionminutes_seconds_triggered()
+{
+    ui->timeEdit->setDisplayFormat("mm:ss");
+}
+
+
+void MainWindow::on_listWidget_itemSelectionChanged()
+{
+    if (clickSound) { playerChange->play(); }
+    ui->AddToGroupOfTimers->setEnabled(true);
+    ui->RemoveFromGroupOfTimers->setEnabled(true);
+    ui->start->setEnabled(true);
+    ui->Delete->setEnabled(true);
+    ui->StartGroup->setEnabled(true);
+}
+
+void MainWindow::on_actionClick_Sound_triggered(bool checked)
+{
+    if(checked == true) { clickSound = false; }
+    else { clickSound = true; }
+}
+
+void MainWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
+{
+
 }

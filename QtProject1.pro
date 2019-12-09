@@ -18,10 +18,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    playlist.cpp \
     timeclass.cpp
 
 HEADERS += \
     mainwindow.h \
+    playlist.h \
     timeclass.h
 
 FORMS += \
