@@ -45,7 +45,7 @@ void TimerAndAlarm::Set_node(const QString &node)
 
 void TimerAndAlarm::Set_timeMillSec(const int &time)
 {
-    TimerAndAlarm::_timeMillSec = time;
+    _timeMillSec = time;
 }
 
 timeclass::timeclass()

@@ -210,6 +210,7 @@ QListView::item:hover {
     </property>
     <addaction name="actionDouble_click_to_Start"/>
     <addaction name="actionClick_Sound"/>
+    <addaction name="actionDisable_hints"/>
     <addaction name="actionSecret_Box_Fun"/>
    </widget>
    <widget class="QMenu" name="menuChoose_music">
@@ -326,6 +327,14 @@ QListView::item:hover {
   <action name="actionProsipaysa_Moi_Hazain_Fun">
    <property name="text">
     <string>Prosipaysa-Moi-Hazain(Fun)</string>
+   </property>
+  </action>
+  <action name="actionDisable_hints">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Disable hints</string>
    </property>
   </action>
  </widget>

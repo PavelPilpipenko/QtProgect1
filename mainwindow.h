@@ -7,8 +7,7 @@
 #include <QTimer>
 #include <QCheckBox>
 #include <QMessageBox>
-#include <QMediaPlayer>
-#include <QUrl>
+#include <QColor>
 #include "timeclass.h"
 #include "playlist.h"
 
@@ -26,12 +25,14 @@ public:
 
     bool clickSound;
     bool doubleclick;
+    bool hints;
     QString group;
 
 private slots:
 
     void update_timer(const unsigned long long int &index);
     void update_alarm(const unsigned long long int &index);
+    void start_alarm(const unsigned long long int &index);
     void offButtons();
 
 
@@ -66,6 +67,8 @@ private slots:
 
     void on_actionClick_Sound_triggered(bool checked);
 
+    void on_actionDisable_hints_triggered(bool checked);
+
     void on_actionDouble_click_to_Start_triggered(bool checked);
 
     void on_actionGroup_1_triggered();
@@ -82,6 +85,7 @@ private slots:
     void on_actionMellen_Gi_Remix_triggered();
     void on_actionGood_sound_triggered();
     void on_actionProsipaysa_Moi_Hazain_Fun_triggered();
+
 
 private:
     Ui::MainWindow *ui;

@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     group = " Group 1";
     clickSound = true;
     doubleclick = false;
+    hints = true;
     offButtons();
 }
 
@@ -59,6 +60,22 @@ void MainWindow::update_alarm(const unsigned long long int &index) {
     });
 }
 
+void MainWindow::start_alarm(const unsigned long long int &index) {
+    const int currTimeMillSec = QTime(0,0,0).currentTime().second()*1000 + QTime(0,0,0).currentTime().minute()*60000 + QTime(0,0,0).currentTime().hour()*3600000;
+    int time;
+    int timeMillSec;
+    if(currTimeMillSec > timersAndAlarmsList[index].timeMillSec()) {
+        time = 24*3600000 - (currTimeMillSec - timersAndAlarmsList[index].timeMillSec());
+    } else {
+        time= timersAndAlarmsList[index].timeMillSec() - currTimeMillSec;
+    }
+    timeMillSec = timersAndAlarmsList[index].timeMillSec();
+    timersAndAlarmsList[index].Set_timeMillSec(time);
+    timersAndAlarmsList[index].clock()->start();
+    update_alarm(index);
+    timersAndAlarmsList[index].Set_timeMillSec(timeMillSec);
+}
+
 //UI:
 void MainWindow::on_addTimerButton_clicked()
 {
@@ -94,11 +111,17 @@ void MainWindow::on_addAlarmButton_clicked()
 void MainWindow::on_AddToGroupOfTimers_clicked()
 {
         const unsigned long long int index = ui->listWidget->currentRow();
-        if(timersAndAlarmsList[index].type() == isAlarm) { return; }
         timersAndAlarmsList[index].Set_node(group);
         QListWidgetItem *selectedTimer = new QListWidgetItem;
         selectedTimer = ui->listWidget->currentItem();
-        selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(timersAndAlarmsList[index].timeMillSec()).toString() + timersAndAlarmsList[index].node());
+        if(!timersAndAlarmsList[index].clock()->isActive() && timersAndAlarmsList[index].type() == isTimer) {
+            selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(timersAndAlarmsList[index].timeMillSec()).toString() + timersAndAlarmsList[index].node());
+        } else if  (timersAndAlarmsList[index].type() == isAlarm) {
+            selectedTimer->setText("Alarm: " + QTime(0,0,0).addMSecs(timersAndAlarmsList[index].timeMillSec()).toString() + timersAndAlarmsList[index].node());
+        }
+        if (timersAndAlarmsList[index].node() == " Group 1") { selectedTimer->setTextColor("green"); }
+        else if (timersAndAlarmsList[index].node() == " Group 2") { selectedTimer->setTextColor("blue"); }
+        else { selectedTimer->setTextColor("red"); }
 }
 
 
@@ -106,20 +129,20 @@ void MainWindow::on_start_clicked()
 {
     const unsigned long long int index = ui->listWidget->currentRow();
     if(timersAndAlarmsList[index].clock()->isActive()) { return; }
+    if(hints) {
+        if(timersAndAlarmsList[index].node() != "") {
+            QMessageBox::question(this, "Start group", "You can start group of timers. Do you want?", QMessageBox::Yes | QMessageBox::No);
+            if(QMessageBox::Yes) {
+                on_StartGroup_clicked();
+                return;
+            }
+    }
+    }
     if(timersAndAlarmsList[index].type() == isTimer) {
         timersAndAlarmsList[index].clock()->start();
         update_timer(index);
     } else if(timersAndAlarmsList[index].type() == isAlarm) {
-        const int currTimeMillSec = QTime(0,0,0).currentTime().second()*1000 + QTime(0,0,0).currentTime().minute()*60000 + QTime(0,0,0).currentTime().hour()*3600000;
-        int time;
-        if(currTimeMillSec > timersAndAlarmsList[index].timeMillSec()) {
-            time = 24*3600000 - (currTimeMillSec - timersAndAlarmsList[index].timeMillSec());
-        } else {
-            time= timersAndAlarmsList[index].timeMillSec() - currTimeMillSec;
-        }
-        timersAndAlarmsList[index].Set_timeMillSec(time);
-        timersAndAlarmsList[index].clock()->start();
-        update_alarm(index);
+        start_alarm(index);
     }
 }
 
@@ -132,8 +155,12 @@ void MainWindow::on_StartGroup_clicked()
             for(index = 0; index < timersAndAlarmsList.size(); ++index) {
                 if(timersAndAlarmsList[index].node() == changedGroup) {
                     if(timersAndAlarmsList[index].clock()->isActive()) { continue; }
-                    timersAndAlarmsList[index].clock()->start();
-                    update_timer(index);
+                        if(timersAndAlarmsList[index].type() == isTimer) {
+                            timersAndAlarmsList[index].clock()->start();
+                            update_timer(index);
+                        } else {
+                            start_alarm(index);
+                        }
                 }
             }
 }
@@ -143,13 +170,13 @@ void MainWindow::on_Delete_clicked()
     const int index = ui->listWidget->currentRow();
     if(timersAndAlarmsList[index].clock()->isActive()) {
         QMessageBox::warning(this, "UPS", "You cant delete object while it works", QMessageBox::Ok);
-    } else {
+        return;
+    }
         timersAndAlarmsList.erase(timersAndAlarmsList.begin() + index);
         ui->listWidget->takeItem(index);
         if(timersAndAlarmsList.size() == 0) {
             offButtons();
         }
-    }
 }
 
 void MainWindow::on_DisturbBox_clicked(bool checked)
@@ -162,11 +189,15 @@ void MainWindow::on_DisturbBox_clicked(bool checked)
 void MainWindow::on_RemoveFromGroupOfTimers_clicked()
 {
         const unsigned long long int index = ui->listWidget->currentRow();
-        if(timersAndAlarmsList[index].type() == isAlarm) { return; }
         QListWidgetItem *selectedTimer = new QListWidgetItem;
         selectedTimer = ui->listWidget->currentItem();
         timersAndAlarmsList[index].Set_node("");
-        selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(timersAndAlarmsList[index].timeMillSec()).toString() + timersAndAlarmsList[index].node());
+        if(!timersAndAlarmsList[index].clock()->isActive() && timersAndAlarmsList[index].type() == isTimer) {
+            selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(timersAndAlarmsList[index].timeMillSec()).toString() + timersAndAlarmsList[index].node());
+        } else if (timersAndAlarmsList[index].type() == isAlarm) {
+            selectedTimer->setText("Alarm: " + QTime(0,0,0).addMSecs(timersAndAlarmsList[index].timeMillSec()).toString() + timersAndAlarmsList[index].node());
+        }
+        selectedTimer->setTextColor("black");
 }
 
 void MainWindow::on_listWidget_itemSelectionChanged()
@@ -220,6 +251,11 @@ void MainWindow::on_actionClick_Sound_triggered(bool checked)
     else { clickSound = true; }
 }
 
+void MainWindow::on_actionDisable_hints_triggered(bool checked)
+{
+    if(checked) { hints = false; }
+    else { hints = true; }
+}
 
 void MainWindow::on_actionDouble_click_to_Start_triggered(bool checked)
 {
@@ -259,3 +295,5 @@ void MainWindow::on_actionHappy_New_Year_Standart_triggered() { playerAlarm->set
 void MainWindow::on_actionMellen_Gi_Remix_triggered() { playerAlarm->setMedia(QUrl("qrc:/sounds/recources/Mellen-Gi-Remix-alarm..mp3")); }
 void MainWindow::on_actionGood_sound_triggered() { playerAlarm->setMedia(QUrl("qrc:/sounds/recources/Good-sound-for-alarm.mp3")); }
 void MainWindow::on_actionProsipaysa_Moi_Hazain_Fun_triggered() { playerAlarm->setMedia(QUrl("qrc:/sounds/recources/alarm-sound.mp3")); }
+
+
