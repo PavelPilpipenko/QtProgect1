@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     doubleclick = false;
     hints = true;
     offButtons();
+    currTime();
 }
 
 MainWindow::~MainWindow()
@@ -76,6 +77,22 @@ void MainWindow::start_alarm(const unsigned long long int &index) {
     timersAndAlarmsList[index].Set_timeMillSec(timeMillSec);
 }
 
+void MainWindow::currTime() {
+    const int currTime = QTime(0,0,0).currentTime().second()*1000 + QTime(0,0,0).currentTime().minute()*60000 + QTime(0,0,0).currentTime().hour()*3600000;
+    int i = 0;
+    currTimer->start();
+    while(i != 2*3600000) {
+        i+=1000;
+        currTimer->singleShot(i, this, [=](){
+        ui->statusbar->showMessage(QTime(0,0,0).addMSecs(currTime + i).toString());
+        if(i == 2*3600000) { currTimer->stop(); }
+        });
+    }
+
+
+
+}
+
 //UI:
 void MainWindow::on_addTimerButton_clicked()
 {
@@ -85,7 +102,6 @@ void MainWindow::on_addTimerButton_clicked()
         ui->statusbar->showMessage("Invalid time");
         return;
     }
-    ui->statusbar->clearMessage();
     newTimer.Set_timeMillSec(ui->timeEdit->time().msecsSinceStartOfDay());
     timersAndAlarmsList.push_back(newTimer);
     QListWidgetItem *addTimer = new QListWidgetItem;
@@ -96,7 +112,6 @@ void MainWindow::on_addTimerButton_clicked()
 
 void MainWindow::on_addAlarmButton_clicked()
 {
-    ui->statusbar->clearMessage();
     TimerAndAlarm newAlarm;
     newAlarm.Set_type(2);
     const int alarmtime = ui->timeEdit->time().msecsSinceStartOfDay();

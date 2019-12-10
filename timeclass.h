@@ -33,6 +33,7 @@ class timeclass : public TimerAndAlarm
 public:
     std::vector<TimerAndAlarm> timersAndAlarmsList;
 
+    QTimer *currTimer;
     timeclass();
 };
 

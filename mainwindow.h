@@ -33,6 +33,7 @@ private slots:
     void update_timer(const unsigned long long int &index);
     void update_alarm(const unsigned long long int &index);
     void start_alarm(const unsigned long long int &index);
+    void currTime();
     void offButtons();
 
 

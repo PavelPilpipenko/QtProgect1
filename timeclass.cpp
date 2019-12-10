@@ -50,4 +50,6 @@ void TimerAndAlarm::Set_timeMillSec(const int &time)
 
 timeclass::timeclass()
 {
+    currTimer = new QTimer;
+    currTimer->setInterval(1000);
 }
