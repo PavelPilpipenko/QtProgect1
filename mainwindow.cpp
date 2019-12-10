@@ -40,7 +40,7 @@ void MainWindow::update_timer(const unsigned long long int &index)
                 if(i == time) {
                     if(!ui->DisturbBox->isTristate()) {
                         playerTimer->play();
-                        QMessageBox::warning(this, "Timer", "Time ended.", QMessageBox::Ok);
+                        QMessageBox::information(this, "Timer", "Time ended.", QMessageBox::Ok);
                         playerTimer->stop(); }
                     timersAndAlarmsList[index].clock()->stop();
                     selectedTimer->setText("Timer: " + QTime(0,0,0).addMSecs(time).toString() + timersAndAlarmsList[index].node());
@@ -55,7 +55,7 @@ void MainWindow::update_alarm(const unsigned long long int &index) {
        timersAndAlarmsList[index].clock()->stop();
        if(!ui->DisturbBox->isTristate()) {
            playerAlarm->play();
-           QMessageBox::warning(this, "Alarm clock", "Wake up.", QMessageBox::Ok);
+           QMessageBox::information(this, "Alarm clock", "Wake up.", QMessageBox::Ok);
            playerAlarm->stop(); }
     });
 }
@@ -131,12 +131,13 @@ void MainWindow::on_start_clicked()
     if(timersAndAlarmsList[index].clock()->isActive()) { return; }
     if(hints) {
         if(timersAndAlarmsList[index].node() != "") {
-            QMessageBox::question(this, "Start group", "You can start group of timers. Do you want?", QMessageBox::Yes | QMessageBox::No);
-            if(QMessageBox::Yes) {
+            QMessageBox::StandardButton reply =  QMessageBox::question(this, "Start group", "You can start group of timers. Do you want?",
+                                                                      QMessageBox::Yes | QMessageBox::No);
+            if(reply == QMessageBox::Yes) {
                 on_StartGroup_clicked();
                 return;
             }
-    }
+        }
     }
     if(timersAndAlarmsList[index].type() == isTimer) {
         timersAndAlarmsList[index].clock()->start();
