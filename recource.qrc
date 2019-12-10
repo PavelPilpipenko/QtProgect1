@@ -2,7 +2,6 @@
     <qresource prefix="/sounds">
         <file>recources/alarm-clock-beep.mp3</file>
         <file>recources/alarm-sound.mp3</file>
-        <file>recources/Secret-Box-Sound.mp3</file>
         <file>recources/change button.mp3</file>
         <file>recources/Good-sound-for-alarm.mp3</file>
         <file>recources/Happy-New-Year-alarm.mp3</file>

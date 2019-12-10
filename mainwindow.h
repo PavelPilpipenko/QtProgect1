@@ -75,8 +75,6 @@ private slots:
     void on_actionGroup_2_triggered();
     void on_actionGroup_3_triggered();
 
-    void on_actionSecret_Box_Fun_triggered();
-
     //Music:
     void on_actionbeep_beep_Standart_triggered();
     void on_actionVery_loud_music_triggered();

@@ -11,8 +11,6 @@ public:
     QMediaPlayer *playerTimer;
     QMediaPlayer *playerAlarm;
     QMediaPlayer *playerChange;
-    QMediaPlayer *playerSecretBox;
-
 
     playlist();
 };

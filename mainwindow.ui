@@ -211,7 +211,6 @@ QListView::item:hover {
     <addaction name="actionDouble_click_to_Start"/>
     <addaction name="actionClick_Sound"/>
     <addaction name="actionDisable_hints"/>
-    <addaction name="actionSecret_Box_Fun"/>
    </widget>
    <widget class="QMenu" name="menuChoose_music">
     <property name="title">
@@ -279,11 +278,6 @@ QListView::item:hover {
    </property>
    <property name="text">
     <string>Double click to Start a timer.</string>
-   </property>
-  </action>
-  <action name="actionSecret_Box_Fun">
-   <property name="text">
-    <string>Secret Box!(Fun)</string>
    </property>
   </action>
   <action name="actionClick_Sound">

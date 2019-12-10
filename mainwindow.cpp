@@ -278,16 +278,6 @@ void MainWindow::on_actionGroup_3_triggered()
     group = " Group 3";
 }
 
-//Secret Box:
-void MainWindow::on_actionSecret_Box_Fun_triggered()
-{
-    ui->DisturbBox->setTristate(true);
-    playerSecretBox->play();
-    QMessageBox::warning(this,"WARNING!", "SECRET BOX!!!", QMessageBox::Ok);
-    playerSecretBox->stop();
-    ui->DisturbBox->setTristate(false);
-}
-
 //Music:
 void MainWindow::on_actionbeep_beep_Standart_triggered() { playerTimer->setMedia(QUrl("qrc:/sounds/recources/alarm-clock-beep.mp3")); }
 void MainWindow::on_actionVery_loud_music_triggered() { playerTimer->setMedia(QUrl("qrc:/sounds/recources/Very-loud-alarm.mp3")); }
